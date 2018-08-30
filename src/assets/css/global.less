@@ -1,0 +1,607 @@
+/* =============================================
+// @des:            全局样式
+// @author:       	Lidelin
+// @time:           2018-6-15
+// =============================================*/
+// 颜色定义
+@mainColor: #e52d11;
+@darkBlack: #181818;
+@lineColor: #ececec;
+@midGray: #a7a7a7;
+// 颜色大小
+@smSize: 12px;
+@defaultSize: 14px;
+@midSize: 16px;
+
+body{
+	background: #eff3f6;
+}
+a{
+	color: #2c3e50;
+}
+.mint-header{
+	background: @mainColor !important;
+	.mint-header-title{
+		font-size: @midSize;
+		&:before{
+			font-family:"iconfont" !important;
+			font-size:42px;
+			font-style:normal;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			content: "\e63d";
+			vertical-align: middle;
+			margin-right: 5px;
+		}
+
+	}
+}
+.container{
+	margin-top: 44px;
+	&.hasBtmBar{
+		padding-bottom: 55px;
+		strong{
+			color: @mainColor;
+		}
+	}
+	.mint-cell-wrapper{
+		font-size: @defaultSize;
+		padding-left: 15px;
+	}
+}
+.btmBar{
+	height: 50px;
+	background: #fff;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	.btnWrap{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		height: 100%;
+		.total{
+			flex: 1;
+			text-align: center;
+		}
+	}
+	.paymentBtn,.delBtn,.paymentBtn-w,.cancelBtn,.paymentBtn-mid{
+		background: @mainColor;
+		color: #fff;
+		display: flex;
+		height: 100%;
+		align-items: center;
+		justify-content: center;
+		width: 120px;
+		&:active{
+			background: fade(@mainColor,80);
+		}
+	}
+	.delBtn,.cancelBtn{
+		width: 100%;
+		background: @midGray;
+		&:active{
+			background: fade(@midGray,80);
+		}
+	}
+	.paymentBtn-w{
+		width: 100%;
+		background: @mainColor;
+		&:active{
+			background: fade(@mainColor,80);
+		}
+	}
+	.cancelBtn,.paymentBtn-mid{
+		width: 50%;
+	}
+}
+// 表单样式
+.page-part{
+	margin-bottom: 15px;
+}
+input:disabled{
+  background: transparent;
+  color: #aaa;
+}
+.mint-cell-sm{
+	min-height: 42px !important;
+}
+// 板块样式
+.panel-wrap{
+	background: #fff;
+	// border-top: 1px solid #ececec;
+	// border-bottom: 1px solid #ececec;
+	font-size: @defaultSize !important;
+	margin-bottom: 15px;
+	&:before{
+		content: "";
+		display: table;
+	}
+	&.noMargin{
+		margin-bottom: 0;
+	}
+	.panel-title{
+		color: @darkBlack;
+		font-weight: bold;
+		margin-top: 10px;
+		padding: 0 10px;
+		&:before{
+			content: "";
+			width: 5px;
+			height: @defaultSize;
+			background: @mainColor;
+			display: inline-block;
+			margin-right: 10px;
+			position: relative;
+			top: 2px;
+		}
+	}
+	.mint-cell-wrapper{
+		font-size: @defaultSize !important;
+		padding-left: 15px;
+	}
+	.panel-bottom{
+		padding: 15px 10px;
+		text-align: right;
+	}
+	.price{
+		color: @mainColor;
+	}
+	// 备注
+	.remarks{
+		padding: 0 10px;
+	}
+	&.lensWrap{
+		padding: 10px;
+		.lensName{
+			font-size: @midSize;
+			font-weight: normal;
+			margin-bottom: 5px;
+		}
+		.others{
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			.selectBtn{
+				color: @mainColor;
+				font-size: @smSize;
+				font-weight: normal;
+				border: 1px solid @mainColor;
+				padding: 3px 12px;
+				border-radius: 2px;
+			}
+		}
+	}
+}
+// 搜索
+.searchBox{
+	display: flex;
+	background: #efefef;
+	box-sizing: border-box;
+	padding: 8px 10px;
+	margin-bottom: 15px;
+	border-bottom: 1px solid #eee;
+	align-items: center;
+	.searchbar-inner{
+		background-color: #fff;
+		border-radius: 2px;
+		-webkit-box-flex: 1;
+		-ms-flex: 1;
+		flex: 1;
+		height: 28px;
+		padding: 4px 6px;
+		display: -webkit-flex;
+		display: -moz-flex;
+		display: -ms-flex;
+		display: -o-flex;
+		display: flex;
+		align-items: center;
+		.iconfont{
+			color: #aaa;
+			font-size: 15px;
+			margin-right: 5px;
+
+		}
+		.mint-searchbar-core{
+			font-size: @smSize
+		}
+	}
+	.filter{
+		width: 33px;
+		margin-left: 15px;
+		text-align: right;
+		color: #999;
+		border-left: 1px solid #ddd;
+		background: transparent;
+		height: inherit;
+		.iconfont{
+			font-size: @midSize + 6;
+		}
+		&:after{
+			background: transparent !important;
+		}
+	}
+}
+
+// Tab页
+.tabWrap{
+	display: flex;
+	padding: 0 10px;
+	margin: 10px 0;
+	justify-content: flex-start;
+	a{
+		font-size: @smSize;
+		color: @darkBlack;
+		border-radius: 15px;
+		border: 1px solid #ddd;
+		padding: 5px 10px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		margin-right: 10px;
+		&.cur{
+			color: @mainColor;
+			border: 1px solid @mainColor;
+			background: #fef4f2;
+		}
+		&:last-child{
+			margin-right: 0;
+		}
+	}
+}
+// 收费项目
+.payService,.manualService{
+	.itemTitle{
+		display: flex;
+		justify-content: space-between;
+		margin: 20px 0 0;
+		padding: 0 10px 10px 15px;
+		font-weight: bold;
+		border-bottom: 1px solid @lineColor;
+		align-items: center;
+		color: @darkBlack;
+		.selGlasses{
+			color: @mainColor;
+			font-size: @smSize;
+			font-weight: normal;
+			border: 1px solid @mainColor;
+			padding: 5px 8px;
+			border-radius: 2px;
+		}
+		.instr{
+			color: @midGray;
+			font-weight: normal;
+			font-size: @smSize;
+			margin-right: auto;
+		}
+	}
+	.itemBody{
+		display: flex;
+		padding: 10px 0;
+		.itemName{
+			flex: 1;
+			margin-left: 15px;
+			margin-right: 20px;
+		}
+		.price{
+			margin-right: 10px;
+		}
+
+	}
+	.subColumn{
+		.columnTitle{
+			margin: 0 10px;
+		}
+	}
+}
+.manualService{
+	.itemBody{
+		padding: 0;
+		margin-top: -1px;
+		.price{
+			margin-right: 0;
+			margin-left: 10px;
+		}
+	}
+	.page-cell{
+		width: 100%;
+	}
+	.additionalCost{
+		.mint-cell-wrapper{
+			display: block;
+		}
+		.mint-cell-title{
+			padding-top: 15px;
+		}
+		.mint-cell-value{
+			padding: 10px 0;
+		}
+		.costList{
+			line-height: 1.8;
+			width: 100%;
+			li{
+				margin: 5px 0;
+			}
+			.price{
+				margin-left: auto;
+				margin-right: 24px;
+			}
+		}
+		.mint-checklist-label{
+			padding: 0;
+			display: flex;
+		}
+	}
+}
+.widge{
+	background: #fff;
+	border-top: 1px solid #ececec;
+	border-bottom: 1px solid #ececec;
+	font-size: @defaultSize !important;
+	margin-bottom: 15px;
+	&:before{
+		content: "";
+		display: table;
+	}
+	.widge-title,.widge-footer{
+		padding: 0 10px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		height: 40px;
+		.state{
+			.iconfont{
+				margin-left: 10px;
+				font-size: 18px;
+				color: #666;
+			}
+		}
+		.valid{
+			color: @mainColor;
+		}
+		.invalid{
+			color: @midGray;
+		}
+	}
+	.widge-body{
+		padding: 10px;
+		background: #fafafa;
+		line-height: 1.8;
+		.remarks{
+			color: @mainColor;
+		}
+	}
+	.widge-footer{
+		.price{
+			font-size: @midSize;
+		}
+		.order-number{
+			color: @midGray;
+		}
+	}
+}
+// 详情页面
+.customer-info,.order-info{
+	padding: 10px;
+	display: flex;
+	font-size: @smSize;
+	align-items: center;
+	line-height: 1.5;
+	.info-wrap{
+		flex: 1;
+	}
+	.base-info{
+		display: flex;
+		justify-content: space-between;
+		font-size: @midSize;
+		margin-bottom: 5px;
+	}
+	.iconfont{
+		color: @midGray;
+		font-size: 30px;
+		margin-right: 15px;
+		margin-left: 5px;
+	}
+}
+.order-info{
+	border-bottom: 1px solid @lineColor;
+	.remarks{
+		padding: 0;
+		color: @mainColor;
+	}
+}
+// 详情数据
+.detail-data{
+	padding: 10px 0;
+	font-size: @defaultSize;
+	.itemTitle{
+		font-size: @defaultSize !important;
+		color: @darkBlack;
+		font-weight: bold;
+		margin-left: 15px;
+		padding-bottom: 8px;
+		margin-bottom: 8px;
+		border-bottom: 1px solid @lineColor;
+	}
+	.itemBody{
+		padding: 0 15px;
+		line-height: 1.2;
+		.price-data{
+			display: flex;
+			justify-content: space-between;
+			margin-bottom: 8px;
+			.item-name{
+				width: 78%;
+			}
+		}
+		.testing-data{
+			font-size: @smSize;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			margin-top: 5px;
+			line-height: 1.8;
+		}
+		.data-item{
+			width: 42%;
+			display: flex;
+			justify-content: space-between;
+			margin-right: 15px;
+			&:nth-child(2n+2){
+				margin-right: 0;
+			}
+			.item-name{
+				color: #777;
+			}
+		}
+	}
+	.remarks{
+		padding: 0;
+		h3{
+			font-size: @defaultSize;
+			margin: 20px 0 5px;
+		}
+	}
+}
+
+// 付款
+.payment-wrap{
+	background: #fff;
+	padding: 8px 15px;
+	text-align: right;
+	font-size: 14px;
+	margin-bottom: 10px;
+	strong{
+		font-size: @midSize;
+	}
+	li{
+		line-height: 1.5;
+		padding: 5px 0;
+	}
+	.pay_list li:last-child{
+		border-bottom: 1px solid @lineColor;
+	}
+}
+// 弹出框
+.mint-popup{
+	height: 100%;
+	width: 75%;
+}
+// 筛选条件
+.conditionPop{
+	padding: 10px;
+	height: 100%;
+	.conditionWrap{
+		dl{
+			margin-bottom: 15px;
+		}
+		dt{
+			margin-bottom: 10px;
+		}
+		dd{
+			a{
+				font-size: @smSize;
+				background: #f0f0f0;
+				padding: 8px;
+				border-radius: 3px;
+				display: inline-block;
+				width: 80px;
+				margin-bottom: 5px;
+				text-align: center;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: nowrap;
+				&.cur{
+					background: @mainColor;
+					color: #fff;
+				}
+			}
+		}
+	}
+	.buttonWrap{
+		display: flex;
+		justify-content: space-around;
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		padding: 10px;
+		background: #fff;
+		button{
+			width: 45%;
+		}
+	}
+}
+
+.picker-slot {
+  width: 100%;
+}
+
+.picker-slot-center  div{
+  width: 100%;
+}
+.dialog-container .mint-field .mint-cell-title{
+  width:50px;
+}
+.more_loading .mint-spinner-fading-circle{
+  margin-left: 49%;
+}
+.mint-checklist-label .cur{
+  background-color: #26a2ff;
+  border-color: #26a2ff;
+}
+.mint-checklist-label .cur::after {
+  border-color: #fff;
+  -webkit-transform: rotate(45deg) scale(1);
+  transform: rotate(45deg) scale(1);
+}
+// 2018-8-30 新增验光数据多选项目
+.page-cell-table-wrap{
+  border-top: 1px solid #d9d9d9;
+  padding: 12px;
+}
+.page-cell-table{
+  border: 1px solid #eaeaea;
+  .page-cell-header{
+    font-weight: bold;
+    background-color: #f9f9f9;
+  }
+  .page-cell-tr{
+    display: flex;
+    border-bottom: 1px solid #eaeaea;
+  }
+  .page-cell-body{
+    .page-cell-tr{
+      position: relative;
+      &:last-child{
+        border-bottom: none;
+      }
+      &:active{
+        background-color: rgba(0,0,0,.1);
+      }
+      &:after{
+        content: "";
+        border: solid 2px #c8c8cd;
+        border-bottom-width: 0;
+        border-left-width: 0;
+        content: " ";
+        top: 50%;
+        right: 20px;
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        -webkit-transform: translateY(-50%) rotate(45deg);
+        transform: translateY(-50%) rotate(45deg);
+      }
+    }
+
+  }
+  .page-cell-item{
+    width: 25%;
+    text-align: center;
+    line-height: 3;
+    &:first-child{
+      width: 20%;
+    }
+  }
+}
