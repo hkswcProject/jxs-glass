@@ -37,42 +37,38 @@
                   <div class="item-name" v-if="orderData.optometryTypeId==4">无需验光</div>
                   <span class="price">￥{{orderData.optometryAmount?orderData.optometryAmount.toFixed(2):'0.00'}}</span>
                 </div>
+
                 <div class="testing-data">
-                  <div class="data-item">
-                    <span class="item-name">右眼近视度数</span>
-                    <span class="deg">{{orderData.myopicRight?orderData.myopicRight:''}}</span>
+                  <div class="page-cell-table-wrap">
+                    <div class="page-cell-table">
+                      <div class="page-cell-header">
+                        <div class="page-cell-tr">
+                          <div class="page-cell-item"></div>
+                          <div class="page-cell-item">度数</div>
+                          <div class="page-cell-item">散光</div>
+                          <div class="page-cell-item">轴位</div>
+                        </div>
+                      </div>
+                      <div class="page-cell-body">
+                        <div class="page-cell-tr">
+                          <div class="page-cell-item">右眼</div>
+                          <div class="page-cell-item">{{orderData.myopicRight?orderData.myopicRight:''}}</div>
+                          <div class="page-cell-item">{{orderData.astigmiaRight?orderData.astigmiaRight:''}}</div>
+                          <div class="page-cell-item">{{orderData.axialRight?orderData.axialRight:''}}</div>
+                        </div>
+                        <div class="page-cell-tr">
+                          <div class="page-cell-item">左眼</div>
+                          <div class="page-cell-item">{{orderData.myopicLeft?orderData.myopicLeft:''}}</div>
+                          <div class="page-cell-item">{{orderData.astigmiaLeft?orderData.astigmiaLeft:''}}</div>
+                          <div class="page-cell-item">{{orderData.axialLeft?orderData.axialLeft:''}}</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="data-item">
-                    <span class="item-name">左眼近视度数</span>
-                    <span class="deg">{{orderData.myopicLeft?orderData.myopicLeft:''}}</span>
-                  </div>
-                  <div class="data-item">
-                    <span class="item-name">右眼散光度数</span>
-                    <span class="deg">{{orderData.astigmiaRight?orderData.astigmiaRight:''}}</span>
-                  </div>
-                  <div class="data-item">
-                    <span class="item-name">左眼散光度数</span>
-                    <span class="deg">{{orderData.astigmiaLeft?orderData.astigmiaLeft:''}}</span>
-                  </div>
-                  <div class="data-item">
-                    <span class="item-name">右眼轴位</span>
-                    <span class="deg">{{orderData.axialRight?orderData.axialRight:''}}</span>
-                  </div>
-                  <div class="data-item">
-                    <span class="item-name">左眼轴位</span>
-                    <span class="deg">{{orderData.axialLeft?orderData.axialLeft:''}}</span>
-                  </div>
-                  <div class="data-item">
-                    <span class="item-name">瞳距</span>
-                    <span class="deg">{{orderData.eyePd?orderData.eyePd+'mm':''}}</span>
-                  </div>
-                  <div class="data-item">
-                    <span class="item-name">瞳高</span>
-                    <span class="deg">{{orderData.eyeVd?orderData.eyeVd+'mm':''}}</span>
-                  </div>
-                  <div class="data-item">
-                    <span class="item-name">ADD</span>
-                    <span class="deg">{{orderData.eyeAdd?orderData.eyeAdd:''}}</span>
+                  <div class="page-cell">
+                    <mt-cell title="瞳距" :value="orderData.eyePd?orderData.eyePd+'mm':''"></mt-cell>
+                    <mt-cell title="瞳高" :value="orderData.eyeVd?orderData.eyeVd+'mm':''"></mt-cell>
+                    <mt-cell title="ADD" :value="eyeAddStr"></mt-cell>
                   </div>
                 </div>
               </div>
@@ -113,11 +109,15 @@
                 </div>
                 <div class="price-data" v-if="orderData.frameName">
                   <div class="item-name">镜框型号</div>
-                  <span>{{orderData.frameName}}</span>
+                  <span style="word-break:break-all; width:240px;">{{orderData.frameName}}</span>
                 </div>
-                <div class="price-data" v-if="orderData.isSideCut">
-                  <div class="item-name">切边</div>
+                <div class="price-data" v-if="orderData.isSideCut==1">
+                  <div class="item-name">特殊服务</div>
                   <span class="price">￥{{orderData.sideCutPrice.toFixed(2)}}</span>
+                </div>
+                <div class="price-data" v-if="orderData.isSideCut==1">
+                  <div class="item-name">要求描述</div>
+                  <span style="word-break:break-all; width:240px;text-align: right;">{{orderData.sideCutRemark}}</span>
                 </div>
                 <div class="price-data" v-if="orderData.isHighScatter">
                   <div class="item-name">高散</div>
@@ -140,9 +140,21 @@
                   <span class="price">￥{{orderData.tortoiseShellPrice.toFixed(2)}}</span>
                 </div>
               </div>
+              <div class="itemTitle" v-if="orderData.isExpress==1">快递服务
+                <span class="price" style="float: right;margin-right:14px;">￥{{orderData.expressAmount.toFixed(2)}}</span>
+              </div>
+              <div class="itemBody" v-if="orderData.isExpress==1">
+                <div class="price-data" >
+                  <div class="item-name">快递地址</div>
+                  <span style="word-break:break-all; width:240px;text-align: right;">{{orderData.expressAddress}}</span>
+                </div>
+              </div>
               <div class="itemTitle">备注</div>
               <div class="itemBody">
                 <p>{{orderData.orderRemark}}</p>
+              </div>
+              <div class="itemTitle">数量
+                <span class="price" style="float: right;margin-right:14px;">{{orderData.orderTotal}}</span>
               </div>
             </div>
           </div>
@@ -199,14 +211,14 @@
             axialRight: order.axialRight ? order.axialRight : '',
             eyePd: order.eyePd ? order.eyePd : '',
             eyeVd: order.eyeVd ? order.eyeVd : '',
-            eyeAdd: order.eyeAdd ? order.eyeAdd : '',
+            eyeAddLeft: order.eyeAddLeft ? order.eyeAddLeft : '',
+            eyeAddRight: order.eyeAddRight ? order.eyeAddRight : '',
             orderServiceId: order.orderServiceId,
             goodsId: order.goodsId,
             varietyId: order.varietyId,
             varietyName: order.varietyName,
             frameTypeId: order.frameTypeId,
             frameName:order.frameName,
-            isSideCut: order.isSideCut ? 1 : 0,
             isHighScatter: order.isHighScatter ? 1 : 0,
             isSuper10d: order.isSuper10d ? 1 : 0,
             isSuper20d: order.isSuper20d ? 1 : 0,
@@ -215,14 +227,20 @@
             optometryAmount: order.optometryAmount,
             goodsAmount: order.goodsAmount,
             varietyPrice: order.varietyPrice,
+            isSideCut: order.isSideCut,
             sideCutPrice: order.sideCutPrice,
+            sideCutRemark:order.sideCutRemark,
             highScatterPrice: order.highScatterPrice,
             super10dPrice: order.super10dPrice,
             super20dPrice: order.super20dPrice,
             fullFramePrice: order.fullFramePrice,
             tortoiseShellPrice: order.tortoiseShellPrice,
             machiningAmount: order.machiningAmount,
+            isExpress:order.isExpress,
+            expressAmount:order.expressAmount,
+            expressAddress:order.expressAddress,
             orderRemark: order.orderRemark,
+            orderTotal:order.orderTotal,
             orderAmount: order.orderAmount,
             openId: order.openId
           }
@@ -235,6 +253,9 @@
             if (res.code == "0") {
               this.orderId = res.data.orderId;
               this.goPay();
+            }else{
+              Indicator.close();
+              Toast(res.msg)
             }
           }).catch((res) => {
             Indicator.close();
@@ -279,7 +300,17 @@
     computed: {
       ...mapState({
         orderData: state => state.order
-      })
+      }),
+      eyeAddStr(){
+        let htmlArray = new Array();
+        if (this.orderData.eyeAddRight != null) {
+          htmlArray.push("右眼：" + this.orderData.eyeAddRight)
+        }
+        if (this.orderData.eyeAddLeft != null) {
+          htmlArray.push("左眼：" + this.orderData.eyeAddLeft)
+        }
+        return htmlArray.join(" , ");
+      }
     }
   }
 </script>

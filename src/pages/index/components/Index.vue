@@ -36,13 +36,13 @@
                     </div>
                   </div>
                   <div class="page-cell-body">
-                    <div class="page-cell-tr"  @click="rightPickerVisible=true">
+                    <div class="page-cell-tr link"  @click="rightPickerVisible=true">
                       <div class="page-cell-item">右眼</div>
                       <div class="page-cell-item">{{myopicRight}}</div>
                       <div class="page-cell-item">{{astigmiaRight}}</div>
                       <div class="page-cell-item">{{axialRight}}</div>
                     </div>
-                    <div class="page-cell-tr" @click="leftPickerVisible=true">
+                    <div class="page-cell-tr link" @click="leftPickerVisible=true">
                       <div class="page-cell-item">左眼</div>
                       <div class="page-cell-item">{{myopicLeft}}</div>
                       <div class="page-cell-item">{{astigmiaLeft}}</div>
@@ -54,7 +54,7 @@
               <div class="page-cell">
                 <mt-cell title="瞳距" is-link :value="eyePd?eyePd+'mm':''" @click.native="eyePdPickerVisible=true"></mt-cell>
                 <mt-cell title="瞳高" is-link :value="eyeVd?eyeVd+'mm':''" @click.native="eyeVdPickerVisible=true"></mt-cell>
-                <mt-cell title="ADD" is-link :value="eyeAdd?eyeAdd:''" @click.native="eyeAddPickerVisible=true"></mt-cell>
+                <mt-cell title="ADD" is-link :value="eyeAddStr" @click.native="eyeAddPickerVisible=true"></mt-cell>
               </div>
             </div>
           </div>
@@ -90,7 +90,7 @@
                 <div class="itemTitle">加工服务<span class="instr" v-show="orderServiceId == 1">（购买镜片,不需要费用）</span></div>
                 <div class="itemBody">
                   <div class="page-cell">
-                    <mt-cell title="镜片品种" is-link   @click.native="varietyPickerVisible=true">
+                    <mt-cell title="镜片品种" is-link   v-show="orderServiceId == 2"  @click.native="varietyPickerVisible=true">
                       <span>{{varietyName}}</span>
                     </mt-cell>
                     <mt-cell title="镜框类型">
@@ -106,19 +106,27 @@
                         <input placeholder="请输入镜框型号" type="text" v-model="frameName" class="mint-field-core">
                       </div>
                     </mt-cell>
-                    <mt-cell title="切边" is-link v-show="frameTypeId==3" @click.native="isSideCutPickerVisible=true">
-                      <span>{{isSideCutStr}}</span>
-                      <span class="price">￥{{sideCutPrice.toFixed(2)}}</span>
+                    <mt-cell title="特殊服务">
+                      <div class="typeTab">
+                          <a href="javascript:void(0);" :class="{'cur':isSideCut==1}" @click="setSideCut(1)">需要</a>
+                          <a href="javascript:void(0);" :class="{'cur':isSideCut==0}" @click="setSideCut(0)">不需要</a>
+                      </div>
                     </mt-cell>
+                    <div class="panel-body page-part" v-if="isSideCut==1">
+                      <mt-field label="服务价格" v-model="sideCutPrice" placeholder="请输入服务价格" type="text"></mt-field>
+                      <mt-field label="要求描述" v-model="sideCutRemark" placeholder="请输入要求描述" type="textarea" rows="2"></mt-field>
+                    </div>
                     <mt-cell title="附加收费" class="additionalCost" v-show="orderServiceId!=1">
                       <div class="costList">
                         <ul>
                           <li>
                             <label  class="mint-checklist-label"  @click="highScatter=!highScatter">
-                            <span  class="mint-checkbox">
-                              <span class="mint-checkbox-core" :class="{'cur': highScatter == true}" ></span>
-                            </span> <span  class="mint-checkbox-label">高散</span>
-                              <span  class="price">￥{{highScatterPrice.toFixed(2)}}</span></label>
+                              <span  class="mint-checkbox">
+                                  <span class="mint-checkbox-core" :class="{'cur': highScatter == true}" ></span>
+                              </span>
+                              <span  class="mint-checkbox-label">高散</span>
+                              <span  class="price">￥{{highScatterPrice.toFixed(2)}}</span>
+                            </label>
                           </li>
                           <li>
                             <label  class="mint-checklist-label"  @click="super10d=!super10d;super10d?super20d=false:''">
@@ -135,6 +143,7 @@
                               <span  class="price">￥{{super20dPrice.toFixed(2)}}</span>
                             </label>
                           </li>
+                          <!--
                           <li>
                             <label  class="mint-checklist-label"  @click="fullFrame=!fullFrame">
                             <span  class="mint-checkbox">
@@ -148,7 +157,7 @@
                               <span class="mint-checkbox-core" :class="{'cur': tortoiseShell == true}" ></span>
                             </span> <span  class="mint-checkbox-label">玳瑁（动物制品）</span>
                               <span  class="price">￥{{tortoiseShellPrice.toFixed(2)}}</span></label>
-                          </li>
+                          </li>-->
                         </ul>
                       </div>
                     </mt-cell>
@@ -158,12 +167,38 @@
             </div>
           </div>
         </div>
+        <!-- 地址 -->
+        <div class="panel-wrap"   v-show="orderServiceId == 1||orderServiceId == 2">
+          <div class="panel-title" style="height: 30px;line-height: 20px;">快递服务
+            <div class="typeTab" style="display: inline-block;float:right">
+              <a href="javascript:void(0);" :class="{'cur':isExpress==1}" @click="setNeedExpress(1)">需要</a>
+              <a href="javascript:void(0);" :class="{'cur':isExpress==0}" @click="setNeedExpress(0)">不需要</a>
+            </div>
+          </div>
+          <div class="panel-body page-part" v-if="isExpress==1">
+            <mt-field label="快递价格" v-model="expressAmount" placeholder="请输入快递价格" type="text"></mt-field>
+            <mt-field label="快递地址" v-model="expressAddress" placeholder="请输入快递地址" type="textarea" rows="2"></mt-field>
+          </div>
+        </div>
         <!-- 备注 -->
         <div class="panel-wrap">
           <div class="panel-title">备注</div>
           <div class="panel-body">
             <div class="remarks">
               <textarea placeholder="请填写备注信息" v-model="orderRemark" rows="4" class="mint-field-core"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- 地址 -->
+        <div class="panel-wrap">
+          <div class="panel-title" style="height: 36px;line-height: 24px;vertical-align: middle">数量
+            <div class="numberChooseTab" style="display: inline-block;float:right">
+              <ul class="count">
+                <li @click="setOrderTotal(-1)"><span id="num-jian" class="num-jian">-</span></li>
+                <li><input type="text" class="input-num"  v-model="orderTotal" readonly/></li>
+                <li  @click="setOrderTotal(1)"><span id="num-jia" class="num-jia">+</span></li>
+              </ul>
             </div>
           </div>
         </div>
@@ -249,6 +284,11 @@
             class="mintui mintui-back"></i></a>
           <a href="javascript:void(0);" class="confirmBtn pbBtn" @click="onEyeAddConfirm">确定</a>
         </div>
+        <div class="dereepTopbar">
+          <div class="dereepBarItem" style="text-align: right;">右眼</div>
+          <div class="dereepBarItem" style=" display: flex;">&nbsp;</div>
+          <div class="dereepBarItem" style="text-align: left;">左眼</div>
+        </div>
         <mt-picker :slots="eyeAddSlots" @change="onEyeAddChange" ></mt-picker>
       </mt-popup>
 
@@ -267,18 +307,6 @@
       </mt-popup>
 
 
-      <!--镜片切边选择-->
-      <mt-popup class="selectPopup selectPopup-s"
-                v-model="isSideCutPickerVisible"
-                popup-transition="popup-fade"
-                position="bottom">
-        <div class="popupTopBar">
-          <a href="javascript:void(0);" class="backBtn pbBtn" @click="isSideCutPickerVisible=false"><i
-            class="mintui mintui-back"></i></a>
-          <a href="javascript:void(0);" class="confirmBtn pbBtn" @click="onIsSideCutConfirm">确定</a>
-        </div>
-        <mt-picker :slots="isSideCutSlots" @change="onIsSideCutChange" ></mt-picker>
-      </mt-popup>
 
       <zs-dialog v-model="dialogVisible"
                  type="confirmType"
@@ -286,18 +314,30 @@
                  :title="'请填写'+diaTitle"
                  @close="clickCloseDia"
                  @confirm="clickConfirmDia">
-        <div v-show="diaType=='left'||diaType=='right'" class="mint-msgbox-input" style="padding-top:4px;">
+        <div v-if="diaType=='left'||diaType=='right'" class="mint-msgbox-input" style="padding-top:4px;">
           <mt-field label="度数"  v-model="diaFirstInp"  placeholder="请输入度数" type="text"></mt-field>
           <mt-field label="散光"  v-model="diaSecondInp"  placeholder="请输入散光" type="text" ></mt-field>
           <mt-field label="轴位"  v-model="diaThreeInp"  placeholder="请输入轴位" type="text" ></mt-field>
         </div>
-        <div v-show="diaType=='eyePd'||diaType=='eyeVd'||diaType=='eyeAdd'" class="mint-msgbox-input">
+        <div v-if="diaType=='eyePd'||diaType=='eyeVd'" class="mint-msgbox-input">
           <mt-field :label="diaTitle"  v-model="diaOtherInp" :placeholder="'请输入'+diaTitle" type="text" ></mt-field>
+        </div>
+        <div v-if="diaType=='eyeAdd'" class="mint-msgbox-input">
+          <mt-field label="右眼"  v-model="diaSecondInp" :placeholder="'请输入右眼'+diaTitle" type="text"></mt-field>
+          <mt-field label="左眼"  v-model="diaFirstInp"  :placeholder="'请输入左眼'+diaTitle" type="text" ></mt-field>
         </div>
       </zs-dialog>
     </div>
   </div>
-  <select-good v-if="selectGoodVisable" @closeSelect="closeSelectGood()"></select-good>
+  <select-good v-if="selectGoodVisable"
+               :openId="openId"
+               :myopicLeft="myopicLeft"
+               :myopicRight="myopicRight"
+               :astigmiaLeft="astigmiaLeft"
+               :astigmiaRight="astigmiaRight"
+               @closeSelect="closeSelectGood()">
+
+  </select-good>
 </div>
 </template>
 
@@ -307,9 +347,11 @@
   import SelectLens from '@/components/SelectLens';
   import { mapMutations,mapState } from 'vuex';
   import {getParam} from '@/utils/utils';
+  import MtSwitch from "mint-ui/packages/switch/src/switch";
   export default {
     name: 'Index',
     components: {
+      MtSwitch,
       'zs-dialog': Dialog,
       'select-good':SelectLens
     },
@@ -442,13 +484,31 @@
         //Add度数选择数组
         eyeAddSlots: [
           {
+            flex: 2,
             values:['其他','+0.50','+0.75', '+1.00', '+1.25', '+1.50', '+1.75', '+2.00', '+2.25', '+2.50', '+2.75', '+3.00', '+3.25', '+3.50', '+3.75' ,'+4.00'],
             defaultIndex: 2,
+            className: 'slot1',
+            textAlign: 'right'
+          },
+          {
+            divider: true,
+            flex: 2,
+            content: '-',
+            className: 'slot2'
+          },
+          {
+            flex: 2,
+            values:['其他','+0.50','+0.75', '+1.00', '+1.25', '+1.50', '+1.75', '+2.00', '+2.25', '+2.50', '+2.75', '+3.00', '+3.25', '+3.50', '+3.75' ,'+4.00'],
+            defaultIndex: 2,
+            className: 'slot3',
+            textAlign: 'left'
           }
         ],
         //Add度数组合值
-        eyeAdd: null,
-        eyeAddTemp: null,
+        eyeAddLeft: null,
+        eyeAddLeftTemp: null,
+        eyeAddRight: null,
+        eyeAddRightTemp: null,
         //显示眼镜选择
         selectGoodVisable:false,
         //服务类型
@@ -472,20 +532,11 @@
         frameTypeId: null,
         //镜片名称
         frameName:null,
-        //<!-- 切边选择开始-->
-        //切边Popup 是否弹出
-        isSideCutPickerVisible: false,
-        //切边选择数组
-        isSideCutSlots: [   {
-          values: ["需要切边","不需要切边"],
-          defaultIndex: 0,
-        }],
-        //切边组合值
-        isSideCut: false,
-        isSideCutStr: "不需要切边",
-        isSideCutTemp: null,
-        //切边价格
-        sideCutPrice:0,
+        //是否需要特殊服务
+        isSideCut: 0,
+        sideCutPrice:null,
+        sideCutRemark:null,
+
         //附加收费
         //高散价格
         highScatter:false,
@@ -504,8 +555,14 @@
         tortoiseShellPrice:0,
         //加工费用
         machiningAmount:0,
+        //快递 0/1
+        isExpress:0,
+        expressAddress:null,
+        expressAmount:null,
         //备注信息
         orderRemark:null,
+        //总数量
+        orderTotal:1,
         //应付价格
         orderAmount:0,
 
@@ -540,10 +597,6 @@
               Toast('请选择镜框类型');
               return;
             }
-            if(this.frameTypeId==3&&!this.isSideCutStr){
-              Toast('请选择是否切边');
-              return;
-            }
         };
         if(this.orderServiceId==2){
           if(!this.varietyId){
@@ -554,13 +607,44 @@
             Toast('请选择镜框类型');
             return;
           }
-          if(this.frameTypeId==3&&!this.isSideCutStr){
-            Toast('请选择是否切边');
-            return;
-          }
         };
         if(this.orderServiceId==3&&this.optometryTypeId==4){
           Toast('请选择服务项目');
+          return;
+        }
+
+        if(this.isSideCut==1&&this.sideCutPrice==null){
+          Toast('请输入服务价格');
+          return;
+        }
+        if(this.isSideCut==1&&this.sideCutPrice!=null){
+          var regu =/(?!^0*(\.0{1,2})?$)^\d{1,13}(\.\d{1,2})?$/;
+          var re = new RegExp(regu);
+          if (!re.test(this.sideCutPrice)) {
+            Toast('请输入正确服务价格');
+            return
+          }
+        }
+
+        if(this.isSideCut==1&&this.sideCutRemark==null){
+          Toast('请输入需求内容');
+          return;
+        }
+
+        if(this.isExpress==1&&this.expressAmount==null){
+          Toast('请输入快递价格');
+          return;
+        }
+        if(this.isExpress==1&&this.expressAmount!=null){
+          var regu =/(?!^0*(\.0{1,2})?$)^\d{1,13}(\.\d{1,2})?$/;
+          var re = new RegExp(regu);
+          if (!re.test(this.expressAmount)) {
+            Toast('请输入正确快递价格');
+            return
+          }
+        }
+        if(this.isExpress==1&&this.expressAddress==null){
+          Toast('请输入快递地址');
           return;
         }
         Indicator.open('结算中...');
@@ -577,13 +661,13 @@
           axialRight:this.axialRight,
           eyePd:this.eyePd,
           eyeVd:this.eyeVd,
-          eyeAdd:this.eyeAdd,
+          eyeAddLeft:this.eyeAddLeft,
+          eyeAddRight:this.eyeAddRight,
           orderServiceId:this.orderServiceId,
           varietyId:this.varietyId,
           varietyName:this.varietyName,
           frameTypeId:this.frameTypeId,
           frameName:this.frameName,
-          isSideCut:this.isSideCut,
           isHighScatter:this.highScatter?1:0,
           isSuper10d:this.super10d?1:0,
           isSuper20d:this.super20d?1:0,
@@ -591,53 +675,71 @@
           isTortoiseShell:this.tortoiseShell?1:0,
           optometryAmount:this.optometryAmount,
           varietyPrice:this.varietyPrice,
-          sideCutPrice:this.sideCutPrice,
+          isSideCut:this.isSideCut,
+          sideCutPrice:Number(this.sideCutPrice),
+          sideCutRemark:this.sideCutRemark,
           highScatterPrice:this.highScatterPrice,
           super10dPrice:this.super10dPrice,
           super20dPrice:this.super20dPrice,
           fullFramePrice:this.fullFramePrice,
           tortoiseShellPrice:this.tortoiseShellPrice,
+          isExpress:this.isExpress,
+          expressAmount:Number(this.expressAmount),
+          expressAddress:this.expressAddress,
           orderRemark:this.orderRemark,
+          orderTotal:this.orderTotal,
           openId:this.openId
         };
         if(this.orderServiceId==1){
           params.good = this.good;
           params.goodsId = this.good.goodsId;
-          params.goodsAmount = this.good.shopPrice;
-          params.machiningAmount = 0;
-          params.orderAmount = this.optometryAmount+this.good.shopPrice;
+          params.goodsAmount = Number(this.good.shopPrice);
+          var machiningAmount =  Number(this.varietyPrice);
+          if(this.sideCutPrice){
+            machiningAmount+=Number(this.sideCutPrice);
+          }else{
+            params.sideCutPrice = 0;
+          }
+          params.machiningAmount = machiningAmount;
+          params.orderAmount = this.optometryAmount+ (machiningAmount+Number(this.good.shopPrice))*this.orderTotal+Number(this.expressAmount);
         }else if(this.orderServiceId==2){
           params.good = null;
           params.goodsId = null;
           params.goodsAmount = 0;
-          var machiningAmount = this.varietyPrice;
+          var machiningAmount = Number(this.varietyPrice);
+          if(this.sideCutPrice){
+            machiningAmount+=Number(this.sideCutPrice);
+          }else{
+            params.sideCutPrice = 0;
+          }
           if(this.highScatter){
-            machiningAmount+=this.highScatterPrice;
+            machiningAmount+=Number(this.highScatterPrice);
           }else{
             params.highScatterPrice = 0;
           }
           if(this.super10d){
-            machiningAmount+=this.super10dPrice;
+            machiningAmount+=Number(this.super10dPrice);
           }else{
             params.super10dPrice = 0;
           }
           if(this.super20d){
-            machiningAmount+=this.super20dPrice;
+            machiningAmount+=Number(this.super20dPrice);
           }else{
             params.super20dPrice = 0;
           }
           if(this.fullFrame){
-            machiningAmount+=this.fullFramePrice;
+            machiningAmount+=Number(this.fullFramePrice);
           }else{
             params.fullFramePrice = 0;
           }
           if(this.tortoiseShell){
-            machiningAmount+=this.tortoiseShellPrice;
+            machiningAmount+=Number(this.tortoiseShellPrice);
           }else{
             params.tortoiseShellPrice = 0;
           }
-          params.machiningAmount = Number(machiningAmount);
-          params.orderAmount = this.optometryAmount+ Number(machiningAmount);
+          machiningAmount =  Number(machiningAmount);
+          params.machiningAmount = machiningAmount;
+          params.orderAmount = this.optometryAmount+ machiningAmount*this.orderTotal+ Number(this.expressAmount);
         }else if(this.orderServiceId==3){
           params.good = null;
           params.goodsId = null;
@@ -645,6 +747,7 @@
           params.machiningAmount = 0;
           params.orderAmount = this.optometryAmount;
         }
+        console.log(params)
         this.subOrder(params);
         setTimeout(()=>{
           this.$router.push('/immediatePay');
@@ -711,7 +814,8 @@
         this.axialRight = null;
         this.eyePd = null;
         this.eyeVd = null;
-        this.eyeAdd = null
+        this.eyeAddLeft = null;
+        this.eyeAddRight = null;
       },
       getMyopicSlotsValues(){
         let tempArrA = this.createNumList(800, 0, 25, '其他','-');
@@ -843,18 +947,22 @@
 
       //Add度数滑动选择
       onEyeAddChange(picker, values) {
-        this.eyeAddTemp = values[0];
+        this.eyeAddLeftTemp = values[1];
+        this.eyeAddRightTemp = values[0];
       },
       //确认Add选择
       onEyeAddConfirm(){
-        this.eyeAdd = this.eyeAddTemp;
+        this.eyeAddLeft = this.eyeAddLeftTemp;
+        this.eyeAddRight = this.eyeAddRightTemp;
         this.eyeAddPickerVisible = false;
-        if (this.eyeAdd == '其他') {
-          this.eyeAdd =  null;
+        if (this.eyeAddLeft == '其他' || this.eyeAddRight == '其他') {
+          this.eyeAddLeft = this.eyeAddLeft != '其他' ? this.eyeAddLeft : null;
+          this.eyeAddRight = this.eyeAddRight != '其他' ? this.eyeAddRight : null;
           this.dialogVisible = true;
           this.diaType = 'eyeAdd';
           this.diaTitle = 'ADD';
-          this.diaOtherInp = this.eyeAdd;
+          this.diaFirstInp = this.eyeAddLeft;
+          this.diaSecondInp = this.eyeAddRight;
         }
       },
 
@@ -923,7 +1031,8 @@
             this.eyeVd = this.diaOtherInp;
             break;
           case 'eyeAdd':
-            this.eyeAdd = this.diaOtherInp;
+            this.eyeAddLeft = this.diaFirstInp;
+            this.eyeAddRight = this.diaSecondInp;
             break;
           default:
         }
@@ -959,6 +1068,9 @@
               this.setMachiningPrice();
           }else if(val==3){
               this.setMachiningPriceZero();
+              this.isExpress =0;
+              this.expressAmount=0;
+              this.expressAddress = null;
           }
       },
       //设置加工费用
@@ -966,7 +1078,9 @@
         //镜片价格
         this.varietyPrice = 0;
         //切片价格
-        this.sideCutPrice=0;
+        this.isSideCut = 0;
+        this.sideCutPrice=null;
+        this.sideCutRemark=null;
         //高散价格
         this.highScatterPrice=Number(this.priceData.high_scatter_price);
         //超10D价格
@@ -983,7 +1097,9 @@
         //镜片价格
         this.varietyPrice = 0;
         //切片价格
-        this.sideCutPrice=0;
+        this.isSideCut = 0;
+        this.sideCutPrice=null;
+        this.sideCutRemark=null;
         //高散价格
         this.highScatterPrice=0;
         //超10D价格
@@ -1001,8 +1117,7 @@
         this.varietyName=null;
         this.frameTypeId = null;
         this.frameName = null;
-        this.isSideCut= false;
-        this.isSideCutStr= '不需要切边';
+        this.isSideCut= 0;
 
         this.highScatter = false;
         this.super10d = false;
@@ -1057,8 +1172,25 @@
         this.frameTypeId = frameTypeId;
         if(this.orderServiceId==2){
           this.setVarietyPrice(this.varietyId,this.frameTypeId);
+        }else if(this.orderServiceId==1){
+          this.setVarietyPriceByCharge(this.frameTypeId);
         }else{
           this.varietyPrice= 0;
+        }
+      },
+      setVarietyPriceByCharge(frameTypeId){
+        switch (frameTypeId){
+          case 1:
+            this.varietyPrice = Number( this.priceData['frame_type_1']);
+            break;
+          case 2:
+            this.varietyPrice = Number( this.priceData['frame_type_2']);
+            break;
+          case 3:
+            this.varietyPrice = Number( this.priceData['frame_type_3']);
+            break;
+          default:
+            this.varietyPrice = 0;
         }
       },
       setVarietyPrice(varietyId,frameTypeId){
@@ -1080,25 +1212,17 @@
             }
         }
       },
-      //切边滑动选择
-      onIsSideCutChange(picker, values) {
-        this.isSideCutTemp = values[0];
+      setSideCut(val){
+        this.isSideCut = val;
       },
-      //确认切边选择
-      onIsSideCutConfirm(){
-        this.isSideCutStr = this.isSideCutTemp;
-        if(this.isSideCutStr=='需要切边'){
-          this.isSideCut= true;
-          if(this.orderServiceId == 2){
-            this.sideCutPrice = Number(this.priceData.cutting_edge);
-          }else{
-            this.sideCutPrice=0;
-          }
-        }else if(this.isSideCutStr=='不需要切边'){
-          this.isSideCut= false;
-          this.sideCutPrice=0;
+      setNeedExpress(val){
+        this.isExpress = val;
+      },
+      setOrderTotal(val){
+        this.orderTotal =  this.orderTotal+val;
+        if(this.orderTotal<=1){
+          this.orderTotal = 1;
         }
-        this.isSideCutPickerVisible = false;
       },
       changeBodyStyle(val){
         if (val){
@@ -1123,31 +1247,62 @@
               return htmlArray.join(" / ");
           }
       }),
+      eyeAddStr(){
+        let htmlArray = new Array();
+        if (this.eyeAddRight != null) {
+          htmlArray.push("右眼：" + this.eyeAddRight)
+        }
+        if (this.eyeAddLeft != null) {
+          htmlArray.push("左眼：" + this.eyeAddLeft)
+        }
+        return htmlArray.join(" , ");
+      },
       orderAmountStr(){
         if(this.orderServiceId==1){
           var price = 0;
+          var expressAmount = 0;
+          var machiningAmount = 0;
           if( this.good.shopPrice){
-            price = this.good.shopPrice
+            price = Number(this.good.shopPrice)
           }
-          return price;
+          if(this.expressAmount){
+            expressAmount = Number(this.expressAmount);
+          }
+          if(this.sideCutPrice){
+            machiningAmount+=Number(this.sideCutPrice);
+          }
+          if(this.varietyPrice){
+            machiningAmount+=Number(this.varietyPrice);
+          }
+          return this.optometryAmount + Number(machiningAmount+price)*this.orderTotal + Number(expressAmount);
         }else{
-          var machiningAmount = this.varietyPrice;;
+          var expressAmount = 0;
+          var machiningAmount = 0;
+          if(this.varietyPrice){
+            machiningAmount+=this.varietyPrice
+          }
+          if(this.sideCutPrice){
+            machiningAmount+=Number(this.sideCutPrice)
+          }
           if(this.highScatter){
-            machiningAmount+=this.highScatterPrice;
+            machiningAmount+=Number(this.highScatterPrice);
           }
           if(this.super10d){
-            machiningAmount+=this.super10dPrice;
+            machiningAmount+=Number(this.super10dPrice);
           }
           if(this.super20d){
-            machiningAmount+=this.super20dPrice;
+            machiningAmount+=Number(this.super20dPrice);
           }
           if(this.fullFrame){
-            machiningAmount+=this.fullFramePrice;
+            machiningAmount+=Number(this.fullFramePrice);
           }
           if(this.tortoiseShell){
-            machiningAmount+=this.tortoiseShellPrice;
+            machiningAmount+=Number(this.tortoiseShellPrice);
           }
-          return this.optometryAmount+ Number(machiningAmount);
+          if(this.expressAmount){
+            expressAmount = Number(this.expressAmount);
+          }
+          return this.optometryAmount+ Number(machiningAmount)*this.orderTotal + Number(expressAmount);
         }
       }
     },
@@ -1168,9 +1323,6 @@
         this.changeBodyStyle(val);
       },
       varietyPickerVisible:function(val) {
-        this.changeBodyStyle(val);
-      },
-      isSideCutPickerVisible:function(val) {
         this.changeBodyStyle(val);
       },
       dialogVisible:function(val) {
@@ -1241,22 +1393,50 @@
   .typeTab a{
     color: #181818;
     background: #fff;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: normal;
     border: 1px solid #ddd;
-    padding: 4px 10px;
+    padding: 6px 10px;
     border-radius: 4px;
   }
 
   .typeTab .cur{
     color: #e52d11;
     background: #fef4f2;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: normal;
     border: 1px solid #e52d11;
-    padding: 4px 10px;
+    padding: 6px 10px;
     border-radius: 4px;
   }
-
+  .count li{
+    float: left;
+  }
+   .count .num-jian,
+  .num-jia {
+     display: inline-block;
+     width: 30px;
+     height: 30px;
+     line-height: 30px;
+     text-align: center;
+     font-size: 20px;
+     color: #e52d11;
+     background: #fef4f2;
+     cursor: pointer;
+     border: 1px solid #e52d11;
+  }
+   .count .input-num {
+     display: inline-block;
+     width: 50px;
+     height: 30px;
+     line-height: 30px;
+     text-align: center;
+     font-size: 20px;
+     color: #333;
+     border-left: 0;
+     border-right: 0;
+     border-top: 1px solid #e52d11;
+     border-bottom: 1px solid #e52d11;
+  }
 
 </style>

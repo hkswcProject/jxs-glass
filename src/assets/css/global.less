@@ -37,7 +37,7 @@ a{
 	}
 }
 .container{
-	margin-top: 44px;
+	margin-top: 30px;
 	&.hasBtmBar{
 		padding-bottom: 55px;
 		strong{
@@ -436,9 +436,6 @@ input:disabled{
 		}
 		.testing-data{
 			font-size: @smSize;
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: space-between;
 			margin-top: 5px;
 			line-height: 1.8;
 		}
@@ -478,7 +475,7 @@ input:disabled{
 		line-height: 1.5;
 		padding: 5px 0;
 	}
-	.pay_list li:last-child{
+	li:not(:last-child){
 		border-bottom: 1px solid @lineColor;
 	}
 }
@@ -557,51 +554,66 @@ input:disabled{
 }
 // 2018-8-30 新增验光数据多选项目
 .page-cell-table-wrap{
-  border-top: 1px solid #d9d9d9;
-  padding: 12px;
+	border-top: 1px solid #d9d9d9;
+	padding: 12px;
 }
 .page-cell-table{
-  border: 1px solid #eaeaea;
-  .page-cell-header{
-    font-weight: bold;
-    background-color: #f9f9f9;
-  }
-  .page-cell-tr{
-    display: flex;
-    border-bottom: 1px solid #eaeaea;
-  }
-  .page-cell-body{
-    .page-cell-tr{
-      position: relative;
-      &:last-child{
-        border-bottom: none;
-      }
-      &:active{
-        background-color: rgba(0,0,0,.1);
-      }
-      &:after{
-        content: "";
-        border: solid 2px #c8c8cd;
-        border-bottom-width: 0;
-        border-left-width: 0;
-        content: " ";
-        top: 50%;
-        right: 20px;
-        position: absolute;
-        width: 5px;
-        height: 5px;
-        -webkit-transform: translateY(-50%) rotate(45deg);
-        transform: translateY(-50%) rotate(45deg);
-      }
-    }
+	border: 1px solid #eaeaea;
+	.page-cell-header{
+		font-weight: bold;
+		background-color: #f9f9f9;
+	}
+	.page-cell-tr{
+		display: flex;
+		border-bottom: 1px solid #eaeaea;
+	}
+	.page-cell-body{
+		.page-cell-tr{
+			position: relative;
+			&.link{
+				&:last-child{
+					border-bottom: none;
+				}
+				&:active{
+					background-color: rgba(0,0,0,.1);
+				}
+				&:after{
+					content: "";
+					border: solid 2px #c8c8cd;
+				    border-bottom-width: 0;
+				    border-left-width: 0;
+				    content: " ";
+				    top: 50%;
+				    right: 20px;
+				    position: absolute;
+				    width: 5px;
+				    height: 5px;
+				    -webkit-transform: translateY(-50%) rotate(45deg);
+				    transform: translateY(-50%) rotate(45deg);
+				}
+			}
+		}
 
-  }
-  .page-cell-item{
-    width: 25%;
-    text-align: center;
-    line-height: 3;
-    &:first-child{
-      width: 20%;
-    }
-  }
+	}
+	.page-cell-item{
+		width: 25%;
+		text-align: center;
+		line-height: 3;
+		&:first-child{
+			width: 20%;
+		}
+	}
+}
+.testing-data{
+	.page-cell-table-wrap{
+		border-top: none;
+		margin-top: 12px;
+		padding: 0;
+	}
+	.page-cell{
+		margin: 15px -15px -15px;
+		.mint-cell-wrapper{
+			padding-right: 20px;
+		}
+	}
 }

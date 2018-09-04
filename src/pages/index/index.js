@@ -8,7 +8,7 @@ import 'mint-ui/lib/style.css'
 import http from '@/http'
 
 // 导入Mint ui
-import {Cell, Field, Navbar, TabItem, TabContainer, TabContainerItem, Popup, Button, Header,Checklist,Picker,Spinner,InfiniteScroll } from 'mint-ui'
+import {Cell, Field, Navbar, TabItem, TabContainer, TabContainerItem, Popup, Button, Header,Checklist,Picker,Spinner,InfiniteScroll,Switch} from 'mint-ui'
 
 Vue.component(Cell.name, Cell)
 Vue.component(Field.name, Field)
@@ -22,6 +22,7 @@ Vue.component(Header.name, Header);
 Vue.component(Checklist.name, Checklist);
 Vue.component(Picker.name, Picker);
 Vue.component(Spinner.name, Spinner);
+Vue.component(Switch.name, Switch);
 Vue.use(InfiniteScroll);
 
 Vue.config.productionTip = false

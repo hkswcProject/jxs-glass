@@ -98,6 +98,39 @@
   import { mapMutations } from 'vuex'
   export default {
     name: 'SelectLens',
+
+    props: {
+      openId:  {
+        type: String,
+        default: function () {
+          return "";
+        }
+      },
+      myopicLeft:  {
+        type: String,
+        default: function () {
+          return "";
+        }
+      },
+      myopicRight:  {
+        type: String,
+        default: function () {
+          return "";
+        }
+      },
+      astigmiaLeft:  {
+        type: String,
+        default: function () {
+          return "";
+        }
+      },
+      astigmiaRight: {
+        type: String,
+        default: function () {
+          return "";
+        }
+      }
+    },
     data() {
       return {
         filterPouperVisiable:false,
@@ -144,6 +177,11 @@
           this.axios({
             url: '/api/goods/list',
             data: {
+              openId:this.openId,
+              myopicLeft:this.myopicLeft,
+              myopicRight:this.myopicRight,
+              astigmiaLeft:this.astigmiaLeft,
+              astigmiaRight:this.astigmiaRight,
               brandIds:this.brandIds,
               lensTypeIds:this.lensTypeIds,
               refractivityIds: this.refractivityIds,
